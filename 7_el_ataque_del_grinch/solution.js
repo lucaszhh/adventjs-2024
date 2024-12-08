@@ -2,22 +2,22 @@
  *  @returns {string} Fixed and sorted packages
  */
 function fixPackages(packages) {
-    let stack = [];
+    let stack = []
     
     for (let char of packages) {
         if (char === ')') {
-            let temp = '';
+            let temp = ''
             while (stack.length && stack[stack.length - 1] !== '(') {
-                temp += stack.pop();
+                temp += stack.pop()
             }
-            stack.pop(); // Remove the '('
+            stack.pop()
             for (let reversedChar of temp) {
-                stack.push(reversedChar);
+                stack.push(reversedChar)
             }
         } else {
-            stack.push(char);
+            stack.push(char)
         }
     }
     
-    return stack.join('');
+    return stack.join('')
 }
