@@ -3,25 +3,16 @@
  * @returns {number[]} Available shoes 
  */
 function organizeShoes(shoes) {
-    const counts = {};
+    const counts = new Map();
 
-    shoes.forEach(shoe => {
-        const { type, size } = shoe
-        if (!counts[size]) {
-            counts[size] = { I: 0, R: 0 }
-        }
-        counts[size][type]++
-    })
+    // Contar pares disponibles de cada tamaño
+    shoes.forEach(({ type, size }) => {
+        if (!counts.has(size)) counts.set(size, { I: 0, R: 0 });
+        counts.get(size)[type]++;
+    });
 
-    const pairs = []
-
-    Object.keys(counts).forEach(size => {
-        const { I, R } = counts[size]
-        const pairCount = Math.min(I, R)
-        for (let i = 0; i < pairCount; i++) {
-            pairs.push(parseInt(size))
-        }
-    })
-
-    return pairs
+    // Obtener los tamaños con pares disponibles
+    return [...counts.entries()].flatMap(([size, { I, R }]) => 
+        Array(Math.min(I, R)).fill(size)
+    );
 }
