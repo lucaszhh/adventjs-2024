@@ -35,3 +35,18 @@ function moveTrain(board, mov) {
         return 'none'
     }
 }
+
+/**
+ * @param {string[]} board - Represent the train situation
+ * @param {'U' | 'D' | 'R' | 'L' } mov - Movement direction
+ * @returns {'none' | 'crash' | 'eat'}
+ */
+function moveTrain(board, mov) {
+    const directions = { U: [-1, 0], D: [1, 0], L: [0, -1], R: [0, 1] };
+    const [headRow, headCol] = board.flatMap((row, i) => row.includes('@') ? [[i, row.indexOf('@')]] : [])[0];
+    const [dRow, dCol] = directions[mov];
+    const [newRow, newCol] = [headRow + dRow, headCol + dCol];
+
+    if (!board[newRow]?.[newCol]) return 'crash';
+    return board[newRow][newCol] === 'o' ? 'crash' : board[newRow][newCol] === '*' ? 'eat' : 'none';
+}
