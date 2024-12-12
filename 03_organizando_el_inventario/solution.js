@@ -3,16 +3,10 @@
  * @returns {object} The organized inventory
  */
 function organizeInventory(inventory) {
-    const organized = {}
-    inventory.forEach(item => {
-        const { name, quantity, category } = item
-        if (!organized[category]) {
-            organized[category] = {}
-        }
-        if (!organized[category][name]) {
-            organized[category][name] = 0
-        }
-        organized[category][name] += quantity
-    })
-    return organized
+    return inventory.reduce((organized, item) => {
+        const { name, quantity, category } = item;
+        organized[category] ??= {};
+        organized[category][name] = (organized[category][name] ?? 0) + quantity;
+        return organized;
+    }, {});
 }
